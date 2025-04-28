@@ -4,13 +4,17 @@ import { ActivityCard } from "./activity-card";
 
 export function Panel({ title, cards }: { title: string; cards?: AC[] }) {
   return (
-    <ScrollArea>
-      <h4 className="text-lg">{title}</h4>
-      <div className="flex flex-col mt-8">
-        {cards?.map((act, idx) => (
-          <ActivityCard key={idx} activity={act} />
-        ))}
-      </div>
-    </ScrollArea>
+    <div className="relative h-full max-h-[calc(100vh-10rem)] bg-slate-100 rounded-lg">
+      <h4 className="text-lg font-medium h-8 p-4 mb-8  z-30">
+        {title}
+      </h4>
+      <ScrollArea className="h-11/12 px-4 rounded-lg">
+        <div className="flex flex-col gap-4">
+          {cards?.map((act, idx) => (
+            <ActivityCard key={idx} activity={act} />
+          ))}
+        </div>
+      </ScrollArea>
+    </div>
   );
 }
