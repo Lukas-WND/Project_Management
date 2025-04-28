@@ -63,7 +63,7 @@ const data = {
         },
         {
           title: "Quadros",
-          url: "#",
+          url: "/project",
         },
         {
           title: "Atividades",
