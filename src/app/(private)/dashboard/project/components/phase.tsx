@@ -20,11 +20,11 @@ export default function PhaseCard({
 
     return (
         <div
-          className={cn("p-4 h-64 flex flex-col bg-accent rounded-md hover:animate-pulse cursor-pointer", className)}
+          className={cn("p-4 h-64 flex flex-col bg-accent rounded-md hover:animate-pulse hover:outline-2 cursor-pointer", className)}
           {...props}
         >
             <h1 className="text-xl font-bold mb-8">{phaseName}</h1>
-            <p className="flex border-b-2"><span className="font-bold">Última atualização:</span><span className="ml-auto">{lastUpdateDatetimeString}</span></p>
+            <p className="flex border-b-2"><span className="font-bold">Atualizado em:</span><span className="ml-auto">{lastUpdateDatetimeString}</span></p>
             <p className="flex border-b-2"><span className="font-bold">Por:</span><span className="ml-auto">{lastUpdateAuthor}</span></p>
             <div className="mt-auto">
                 <label htmlFor="progress" className="font-bold">{phaseProgress}%</label>
