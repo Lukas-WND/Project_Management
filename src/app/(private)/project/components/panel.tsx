@@ -8,7 +8,7 @@ export function Panel({ title, cards }: { title: string; cards?: AC[] }) {
       <h4 className="text-lg font-medium h-8 p-4 mb-8  z-30">
         {title}
       </h4>
-      <ScrollArea className="h-11/12 px-4 rounded-lg">
+      <ScrollArea className="h-11/12 px-4 pb-4 rounded-lg">
         <div className="flex flex-col gap-4">
           {cards?.map((act, idx) => (
             <ActivityCard key={idx} activity={act} />

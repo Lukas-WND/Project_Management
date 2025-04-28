@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { PencilIcon, Trash2Icon } from "lucide-react";
+import { DeleteActivity } from "./delete-activity";
 
 export function ActivityCard({ activity }: { activity: AC }) {
   return (
@@ -35,9 +36,7 @@ export function ActivityCard({ activity }: { activity: AC }) {
           : ""}
       </CardContent>
       <CardFooter className="gap-2 justify-between">
-        <Button variant={"destructive"}>
-          <Trash2Icon /> Excluir
-        </Button>
+        <DeleteActivity id={activity.id} />
         <Button variant={"default"}>
           <PencilIcon />
           Atualizar
