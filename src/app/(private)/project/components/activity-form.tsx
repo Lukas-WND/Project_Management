@@ -27,6 +27,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export function ActivityForm({ activity }: { activity?: Activity }) {
   const MembersSchema = z.object({
@@ -37,14 +44,15 @@ export function ActivityForm({ activity }: { activity?: Activity }) {
   });
 
   const ActivitySchema = z.object({
-    title: z.string().min(1, { message: "O nome da atividade é obrigatório" }),
+    title: z.string().min(1, { message: "O nome da atividade é obrigatório." }),
+    status: z.string({ required_error: "Informe o status da atividade" }),
     deadline: z.date({
-      required_error: "Informe a data limite para a conclusão",
-      invalid_type_error: "Informe uma data válida",
+      required_error: "Informe a data limite para a conclusão.",
+      invalid_type_error: "Informe uma data válida.",
     }),
     members: z
       .array(MembersSchema)
-      .nonempty({ message: "Atribua essa tarefa à algum membro da equipe" }),
+      .nonempty({ message: "Atribua essa tarefa à algum membro da equipe." }),
   });
 
   type activityDTO = z.infer<typeof ActivitySchema>;
@@ -55,12 +63,13 @@ export function ActivityForm({ activity }: { activity?: Activity }) {
       title: activity?.title,
       deadline: activity?.deadline,
       members: activity?.members,
+      
     },
   });
 
   return (
     <Form {...form}>
-      <form className="grid grid-cols-12">
+      <form className="grid grid-cols-12 gap-4">
         <FormField
           control={form.control}
           name="title"
@@ -70,9 +79,35 @@ export function ActivityForm({ activity }: { activity?: Activity }) {
               <FormControl>
                 <Input placeholder="Levantamento de requisitos..." {...field} />
               </FormControl>
-              <FormDescription>
+              {/* <FormDescription>
                 Este é o título que sua atividade deverá ter
-              </FormDescription>
+              </FormDescription> */}
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="status"
+          render={({ field }) => (
+            <FormItem className="col-span-6">
+              <FormLabel>Status</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Selecione um Status" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="Backlog">Backlog</SelectItem>
+                  <SelectItem value="InProgress">Em Progresso</SelectItem>
+                  <SelectItem value="InReview">Em Revisão</SelectItem>
+                  <SelectItem value="Done">Concluído</SelectItem>
+                </SelectContent>
+              </Select>
+              {/* <FormDescription>
+                Selecione o painel kanban de sua atividade.
+              </FormDescription> */}
               <FormMessage />
             </FormItem>
           )}
