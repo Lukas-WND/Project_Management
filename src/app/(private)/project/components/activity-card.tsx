@@ -1,4 +1,4 @@
-import { ActivityCard as AC } from "@/@types/activity-card";
+import Activity from "@/@types/activity";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,8 +11,9 @@ import {
 } from "@/components/ui/card";
 import { PencilIcon, Trash2Icon } from "lucide-react";
 import { DeleteActivity } from "./delete-activity";
+import { UpdateActivity } from "./update-activity";
 
-export function ActivityCard({ activity }: { activity: AC }) {
+export function ActivityCard({ activity }: { activity: Activity }) {
   return (
     <Card>
       <CardHeader>
@@ -37,10 +38,7 @@ export function ActivityCard({ activity }: { activity: AC }) {
       </CardContent>
       <CardFooter className="gap-2 justify-between">
         <DeleteActivity id={activity.id} />
-        <Button variant={"default"}>
-          <PencilIcon />
-          Atualizar
-        </Button>
+        <UpdateActivity activity={activity} />
       </CardFooter>
     </Card>
   );

@@ -1,4 +1,4 @@
-import { ActivityCard as AC } from "@/@types/activity-card";
+import AC from "@/@types/activity";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ActivityCard } from "./activity-card";
 

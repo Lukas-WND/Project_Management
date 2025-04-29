@@ -1,10 +1,11 @@
 import { Project } from "./project";
 import { User } from "./user";
 
-export type ActivityCard = {
+type Activity = {
   id: string;
   title: string;
   deadline: Date;
   project: Project;
   members: User[];
-};
+};export default Activity;
+
