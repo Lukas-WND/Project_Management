@@ -16,7 +16,7 @@ import { PlusIcon } from "lucide-react";
 import { ActivityForm } from "./create-activity-form";
 import { JSX } from "react";
 
-export function CreateActivity({ /*project,*/ phase, columns }: { /*project: Project,*/ phase: string, columns: JSX.Element[] }) {
+export function CreateActivity({ /*project,*/ phase, columns, members }: { /*project: Project,*/ phase: string, columns: JSX.Element[], members: JSX.Element[] }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -33,7 +33,7 @@ export function CreateActivity({ /*project,*/ phase, columns }: { /*project: Pro
           </DialogDescription>
         </DialogHeader>
         <div>
-          <ActivityForm activity={undefined} columns={columns} />
+          <ActivityForm activity={undefined} columns={columns} members={members} />
         </div>
         <DialogFooter>
           <DialogClose asChild>

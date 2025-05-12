@@ -7,14 +7,19 @@ import { Button } from "@/components/ui/button";
 import { CreateActivity } from "../../components/create-activity";
 
 export default async function InitializatingProject() {
-  async function createActivity() {
-
-  }
-
   const renderColumns = (await db.select().from(columns).where(eq(columns.phase, "Iniciação"))).map(column => {
       return (
           <option value={column.id.toString()}>{column.columnName}</option>
       )
+    });
+
+  const renderUsers = (await db.select().from(users)).map(user => {
+      return (
+        <div>
+          <input type="checkbox" id={`user${user.id}`} name="members" value={`${user.id}`} />
+          <label htmlFor={`user${user.id}`}>{user.userName}</label><br></br>
+        </div>
+      );
     });
 
   async function loadData() {
@@ -88,7 +93,7 @@ export default async function InitializatingProject() {
     <section className="h-full">
       <h1 className="text-3xl font-semibold">Iniciação</h1>
       <div>
-        <CreateActivity phase="Iniciação" columns={renderColumns} />
+        <CreateActivity phase="Iniciação" columns={renderColumns} members={renderUsers} />
       </div>
       <div className="mt-10 grid grid-cols-4 gap-4 h-7/8">
         {renderPanels}

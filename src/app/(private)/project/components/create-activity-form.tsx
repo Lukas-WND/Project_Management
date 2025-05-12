@@ -10,6 +10,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import Activity from "@/@types/activity";
+import { User } from "@/@types/user";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -34,11 +35,9 @@ import {
 import { formAction } from "./form-actions/create-activity";
 import { useEffect } from "react";
 
-import { db } from "@/db";
-import { columns } from "@/db/schema";
 import { JSX } from "react/jsx-runtime";
 
-export function ActivityForm({ activity, columns }: { activity?: Activity, columns: JSX.Element[] }) {
+export function ActivityForm({ activity, columns, members }: { activity?: Activity, columns: JSX.Element[], members: JSX.Element[] }) {
   const MembersSchema = z.object({
     id: z.string().min(1, { message: "Informe o ID do usuário" }),
     name: z.string(),
@@ -95,6 +94,13 @@ export function ActivityForm({ activity, columns }: { activity?: Activity, colum
         <div className="col-span-2">
             <label htmlFor="deadline">Data Limite</label>
             <input type="date" name="deadline" id="deadline" />
+        </div>
+
+        <div className="col-span-4">
+            <label htmlFor="members">Responsáveis</label>
+            <div className="overflow-scroll grid grid-cols-2 max-h-32" id="members">
+              {members}
+            </div>
         </div>
 
         <Button className="bg-gray-900 text-white font-bold" type="submit">Salvar</Button>
