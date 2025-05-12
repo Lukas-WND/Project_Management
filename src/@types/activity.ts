@@ -1,11 +1,11 @@
-import { Project } from "./project";
 import { User } from "./user";
 
 type Activity = {
   id: string;
   title: string;
   deadline: Date;
-  project: Project;
+  owner: User;
   members: User[];
-};export default Activity;
+};
 
+export default Activity;
