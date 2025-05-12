@@ -28,7 +28,9 @@
     "dotenv": "^16.5.0",
     "drizzle-orm": "^0.43.1",
     "lucide-react": "^0.503.0",
+    "net": "^1.0.2",
     "next": "15.3.1",
+    "perf_hooks": "^0.0.1",
     "pg": "^8.15.6",
     "postgres": "^3.4.5",
     "react": "^19.0.0",
@@ -36,6 +38,7 @@
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.56.1",
     "tailwind-merge": "^3.2.0",
+    "tls": "^0.0.1",
     "typeorm": "^0.3.22",
     "zod": "^3.24.3"
   },
