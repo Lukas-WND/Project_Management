@@ -1,12 +1,8 @@
-import { DataSource } from "typeorm";
-import { AppDataSource } from "./typeorm";
+import { drizzle } from 'drizzle-orm/postgres-js'
+import postgres from 'postgres'
 
-let dataSource: DataSource | null = null;
-
-export async function db() {
-  if (dataSource && dataSource.isInitialized) return dataSource;
-
-  dataSource = await AppDataSource.initialize();
-
-  return dataSource;
+async function main() {
+    const client = postgres(process.env.DATABASE_URL!)
+    const db = drizzle({ client });
 }
+main();
