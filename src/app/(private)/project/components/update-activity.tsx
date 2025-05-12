@@ -11,9 +11,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { PencilIcon } from "lucide-react";
-import { ActivityForm } from "./activity-form";
+import { ActivityForm } from "./update-activity-form";
+import { JSX } from "react";
 
-export function UpdateActivity({ activity }: { activity: Activity }) {
+export function UpdateActivity({ activity, columns }: { activity: Activity, columns: JSX.Element[] }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -30,13 +31,13 @@ export function UpdateActivity({ activity }: { activity: Activity }) {
           </DialogDescription>
         </DialogHeader>
         <div>
-          <ActivityForm activity={activity} />
+          <ActivityForm activity={activity} columns={columns} />
         </div>
         <DialogFooter>
           <DialogClose asChild>
             <Button variant={"outline"}>Cancelar</Button>
           </DialogClose>
-          <Button>Salvar</Button>
+          {/*<Button>Salvar</Button>*/}
         </DialogFooter>
       </DialogContent>
     </Dialog>

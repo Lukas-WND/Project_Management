@@ -31,75 +31,40 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { formAction } from "./form-actions/create-activity";
-import { useEffect } from "react";
+import { formAction } from "./form-actions/update-activity";
+import { act, useEffect } from "react";
 
 import { db } from "@/db";
 import { columns } from "@/db/schema";
 import { JSX } from "react/jsx-runtime";
 
 export function ActivityForm({ activity, columns }: { activity?: Activity, columns: JSX.Element[] }) {
-  const MembersSchema = z.object({
-    id: z.string().min(1, { message: "Informe o ID do usuário" }),
-    name: z.string(),
-    email: z.string().email(),
-    role: z.string(),
-  });
+  function onChange() {
 
-  const ActivitySchema = z.object({
-    title: z.string().min(1, { message: "O nome da atividade é obrigatório." }),
-    status: z.string({ required_error: "Informe o status da atividade" }),
-    deadline: z.date({
-      required_error: "Informe a data limite para a conclusão.",
-      invalid_type_error: "Informe uma data válida.",
-    }),
-    members: z
-      .array(MembersSchema)
-      .nonempty({ message: "Atribua essa tarefa à algum membro da equipe." }),
-  });
-
-  type activityDTO = z.infer<typeof ActivitySchema>;
-
-  const form = useForm<activityDTO>({
-    resolver: zodResolver(ActivitySchema),
-    defaultValues: {
-      title: activity?.title,
-      deadline: activity?.deadline,
-      members: activity?.members
-    },
-  });
-
-  // Log dos valores do formulário para depuração
-  useEffect(() => {
-    const subscription = form.watch((values) => console.log("Form values:", values));
-    return () => subscription.unsubscribe();
-  }, [form.watch]);
-
-  
+  }
 
   return (
-    <Form {...form}>
-      <form action={formAction} className="grid grid-cols-4 gap-4">
-        <div className="col-span-4">
-            <label>Nome da Atividade: </label>
-            <input className="p-1 outline rounded-md" id="title" name="title"/>
-        </div>
+    <form action={formAction} className="grid grid-cols-4 gap-4">
+      <input type="hidden" id="id" name="id" value={activity?.id} />
 
-        <div className="col-span-2">
-            <label htmlFor="column">Status da Atividade</label>
-            <select id="column" name="status">
-                {columns}
-            </select>
-        </div>
+      <div className="col-span-4">
+          <label>Nome da Atividade: </label>
+          <input className="p-1 outline rounded-md" id="title" name="title" onChange={onChange} defaultValue={activity?.title}/>
+      </div>
 
-        <div className="col-span-2">
-            <label htmlFor="deadline">Data Limite</label>
-            <input type="date" name="deadline" id="deadline" />
-        </div>
+      <div className="col-span-2">
+          <label htmlFor="column">Status da Atividade</label>
+          <select id="column" name="status">
+              {columns}
+          </select>
+      </div>
 
-        <button className="bg-gray-900 text-white hover:cursor-pointer rounded-lg" type="submit">Salvar</button>
-        
-      </form>
-    </Form>
+      <div className="col-span-2">
+          <label htmlFor="deadline">Data Limite</label>
+          <input type="date" name="deadline" id="deadline" defaultValue={activity?.deadline.toISOString().split("T")[0]}/>
+      </div>
+
+      <Button className="bg-gray-900 text-white font-bold" type="submit">Salvar</Button>
+    </form>
   );
 }

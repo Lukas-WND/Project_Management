@@ -11,6 +11,12 @@ export default async function InitializatingProject() {
 
   }
 
+  const renderColumns = (await db.select().from(columns).where(eq(columns.phase, "Iniciação"))).map(column => {
+      return (
+          <option value={column.id.toString()}>{column.columnName}</option>
+      )
+    });
+
   async function loadData() {
     const resultColumns = await db.select().from(columns).where(eq(columns.phase, "Iniciação"));
 
@@ -70,19 +76,13 @@ export default async function InitializatingProject() {
 
       const resolvedActivities = await Promise.all(activityList);
 
-      return <Panel title={column.columnName || "Null"} cards={resolvedActivities} />
+      return <Panel title={column.columnName || "Null"} cards={resolvedActivities} columns={renderColumns} />
     })
 
     return renderPanels;
   }
 
   const renderPanels = await loadData();
-
-  const renderColumns = (await db.select().from(columns)).map(column => {
-      return (
-          <option value={column.id.toString()}>{column.columnName}</option>
-      )
-    });
 
   return (
     <section className="h-full">

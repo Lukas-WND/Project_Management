@@ -97,8 +97,7 @@ export function ActivityForm({ activity, columns }: { activity?: Activity, colum
             <input type="date" name="deadline" id="deadline" />
         </div>
 
-        <button className="bg-gray-900 text-white hover:cursor-pointer rounded-lg" type="submit">Salvar</button>
-        
+        <Button className="bg-gray-900 text-white font-bold" type="submit">Salvar</Button>
       </form>
     </Form>
   );

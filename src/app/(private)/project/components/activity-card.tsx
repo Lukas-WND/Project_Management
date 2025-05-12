@@ -12,8 +12,9 @@ import {
 import { PencilIcon, Trash2Icon } from "lucide-react";
 import { DeleteActivity } from "./delete-activity";
 import { UpdateActivity } from "./update-activity";
+import { JSX } from "react";
 
-export function ActivityCard({ activity }: { activity: Activity }) {
+export function ActivityCard({ activity, columns }: { activity: Activity, columns: JSX.Element[] }) {
   return (
     <Card>
       <CardHeader>
@@ -38,7 +39,7 @@ export function ActivityCard({ activity }: { activity: Activity }) {
       </CardContent>
       <CardFooter className="gap-2 justify-between">
         <DeleteActivity id={activity.id} />
-        <UpdateActivity activity={activity} />
+        <UpdateActivity activity={activity} columns={columns} />
       </CardFooter>
     </Card>
   );
