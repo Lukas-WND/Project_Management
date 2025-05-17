@@ -9,4 +9,3 @@ type Activity = {
   members: User[];
   owner: User;
 };export default Activity;
-

@@ -1,9 +1,14 @@
+import Activity from "./activity";
+import Phase from "./phase";
 import { Project } from "./project";
 
 type Column = {
   id: string;
-  title: string;
-  project: string;
-  phase: string;
-};export default Column;
+  name: string;
+  order: number;
+  phase: Phase;
+  project: Project;
+  activities: Activity[];
+};
 
+export default Column;

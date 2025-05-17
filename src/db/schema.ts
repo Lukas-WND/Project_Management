@@ -1,4 +1,5 @@
 import { relations } from "drizzle-orm";
+import { relations } from "drizzle-orm";
 import * as t from "drizzle-orm/pg-core";
 
 export const users = t.pgTable("users", {
@@ -24,7 +25,7 @@ export const phasesEnum = t.pgEnum("phases", ["Arquivado", "Iniciação", "Plane
 
 export const columns = t.pgTable("kanban_columns", {
   id: t.integer().primaryKey().generatedAlwaysAsIdentity(),
-  columnName: t.varchar("column_name", { length: 128 }),
+  columnName: t.varchar("column_name", { length: 128 }).notNull(),
   project: t.integer("project_id").references((): t.AnyPgColumn => projects.id),
   phase: phasesEnum().default("Arquivado")
 });
