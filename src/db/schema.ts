@@ -37,8 +37,16 @@ export const activities = t.pgTable("activity_cards", {
   owner: t.integer("owner_id").references((): t.AnyPgColumn => users.id),
 });
 
-export const activitiesRelations = relations(activities, ({ many }) => ({
-  usersToActivities: many(usersToActivities)
+export const activitiesRelations = relations(activities, ({ many, one }) => ({
+  usersToActivities: many(usersToActivities),
+  owner: one(users, {
+    fields: [activities.owner],
+    references: [users.id]
+  }),
+  column: one(columns, {
+    fields: [activities.column],
+    references: [columns.id]
+  })
 }));
 
 /* Many-to-Many: Activities & Users */

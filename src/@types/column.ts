@@ -3,12 +3,12 @@ import Phase from "./phase";
 import { Project } from "./project";
 
 type Column = {
-  id: string;
+  id: number;
   name: string;
-  order: number;
-  phase: Phase;
-  project: Project;
-  activities: Activity[];
+  //order: number;
+  phase: string;
+  project: string;
+  //activities: Activity[];
 };
 
 export default Column;

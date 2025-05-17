@@ -2,7 +2,7 @@ import Column from "./column";
 import { User } from "./user";
 
 type Activity = {
-  id: string;
+  id: number;
   title: string;
   deadline: Date;
   column: Column;

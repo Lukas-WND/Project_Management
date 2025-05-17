@@ -1,7 +1,7 @@
 import { User } from "./user";
 
 export type Project = {
-    id: string;
+    id: number;
     name: string;
     description?: string;
     deadline: Date;

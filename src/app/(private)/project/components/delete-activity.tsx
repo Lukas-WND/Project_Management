@@ -12,7 +12,7 @@ import {
 import { Trash2Icon } from "lucide-react";
 import { formAction } from "./form-actions/delete-activity";
 
-export function DeleteActivity({ id }: { id: string }) {
+export function DeleteActivity({ id }: { id: number }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -35,7 +35,7 @@ export function DeleteActivity({ id }: { id: string }) {
             <Button variant={"outline"}>Cancelar</Button>
           </DialogClose>
           <form action={formAction}>
-            <input type="hidden" name="id" value={id}/>
+            <input type="hidden" name="id" value={id.toString()}/>
             <Button variant={"destructive"}>Confirmar</Button>
           </form>
         </DialogFooter>
