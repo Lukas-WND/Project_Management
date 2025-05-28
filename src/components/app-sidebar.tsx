@@ -66,72 +66,7 @@ const data = {
           url: "/project",
         },
         {
-          title: "Atividades",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Planejamento",
-      url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentação",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introdução",
-          url: "#",
-        },
-        {
-          title: "Histórias",
-          url: "#",
-        },
-        {
-          title: "Diagramas",
-          url: "#",
-        },
-        {
-          title: "Versões",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Configurações",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "Gerais",
-          url: "#",
-        },
-        {
-          title: "Equipe",
-          url: "#",
-        },
-        {
-          title: "Notificações",
-          url: "#",
-        },
-        {
-          title: "Automações",
+          title: "Resumo",
           url: "#",
         },
       ],
@@ -139,19 +74,14 @@ const data = {
   ],
   projects: [
     {
-      name: "Design Engineering",
+      name: "Gerais",
       url: "#",
       icon: Frame,
     },
     {
-      name: "Sales & Marketing",
+      name: "Notificações",
       url: "#",
       icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
     },
   ],
 };
