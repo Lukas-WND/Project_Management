@@ -2,8 +2,8 @@ import { db } from "@/db/index";
 import * as schema from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
-import { Panel } from "../components/panel";
-import { CreateActivity } from "../components/create-activity";
+import { Panel } from "./components/panel";
+import { CreateActivity } from "./components/create-activity";
 
 import Activity from "@/@types/activity";
 

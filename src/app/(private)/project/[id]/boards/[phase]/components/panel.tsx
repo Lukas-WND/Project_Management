@@ -5,7 +5,7 @@ import { JSX } from "react";
 
 export function Panel({ title, cards, columns }: { title: string; cards?: AC[], columns: JSX.Element[] }) {
   return (
-    <div className="relative h-full max-h-[calc(100vh-10rem)] bg-slate-100 rounded-lg">
+    <div className="relative h-full max-h-[calc(100vh-10rem)] bg-accent rounded-lg">
       <h4 className="text-lg font-medium h-8 p-4 mb-8  z-30">
         {title}
       </h4>
