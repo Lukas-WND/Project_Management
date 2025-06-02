@@ -22,7 +22,11 @@ export const projects = t.pgTable("projects", {
 });
 
 export const projectsRelations = relations(projects, ({ many, one }) => ({
-  usersToActivities: many(usersToProjects)
+  usersToProjects: many(usersToProjects),
+  owner: one(users, {
+    fields: [projects.owner],
+    references: [users.id]
+  })
 }));
 
 export const phasesEnum = t.pgEnum("phases", ["Arquivado", "Iniciação", "Planejamento", "Execução", "Monitoramento", "Encerramento"]);

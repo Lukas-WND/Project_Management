@@ -8,6 +8,7 @@ import { Role } from "./role";
 import { Service } from "./service";
 import { RoleService } from "./role_service";
 import { TaskHistory } from "./task_history";
+import { Comment } from "./comment";
 
 export const schema = {
   User,
