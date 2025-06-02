@@ -1,11 +1,15 @@
-import { db } from "@/db/index";
-import * as schema from "@/db/schema";
-import { eq } from "drizzle-orm";
+"use client"
+
 import { notFound } from "next/navigation";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+
 import { Panel } from "./components/panel";
 import { CreateActivity } from "./components/create-activity";
+import { CreateColumn } from "./components/create-column";
 
 import Activity from "@/@types/activity";
+import loadData from "./actions";
 
 export const translate = [
   { key: "archived", name: "Arquivado" },
@@ -24,7 +28,21 @@ export default async function PhasePage({
 }: {
   params: Promise<{ phase: TranslatePhase }>;
 }) {
+  const [columns, setColumns] = useState([]);
+  const [activities, setActivities] = useState({});
+  const [users, setUsers] = useState({});
+  const [loading, setLoading] = useState(true); // Optional: for loading state
+  const [error, setError] = useState(null);     // Optional: for error handling
+
+  const pathname = usePathname();
+
   const { phase } = await params;
+  
+  const match = pathname.match(/\/project\/(\d+)\/[^/]+\/.*/);
+  let projectId = "";
+  if (match && match[1]) {
+    projectId = match[1];
+  }
 
   const translation = translate.find((item) => item.key === phase);
 
@@ -32,76 +50,110 @@ export default async function PhasePage({
     notFound(); // 404 se não encontrar a tradução
   }
 
-  const columns = await db.query.columns.findMany({
-    where: eq(schema.columns.phase, translation.name),
-  });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true); // Set loading to true before fetch
+        setError(null);   // Clear previous errors
 
-  const renderColumns = columns.map(column => {
-    return (
-      <option key={column.id.toString()} value={column.id.toString()}>{column.columnName}</option>
-    )
+        const data = await loadData(translation);
+
+        // 3. Update state with the fetched data
+        const renderColumns = data.columns.map(column => {
+          return (
+            <option key={column.id.toString()} value={column.id.toString()}>{column.columnName}</option>
+          )
+        })
+
+        setColumns(renderColumns);
+
+        const renderUsers = data.users.map(user => {
+          return (
+            <div>
+              <input type="checkbox" id={`user${user.id}`} name="members" value={`${user.id}`} />
+              <label htmlFor={`user${user.id}`}>{user.userName}</label><br></br>
+            </div>
+          );
+        });
+
+        setUsers(renderUsers);
+
+        const parsedActivities = data.activities.map(async activity => {
+          const members = activity?.usersToActivities.map(userActivity => {
+            return {
+              id: userActivity.user.id,
+              name: userActivity.user.userName || "",
+              email: userActivity.user.email || "",
+              role: userActivity.user.role || "",
+              avatar: userActivity.user.avatar || ""
+            }
+          });
+
+          const owner = {
+            id: activity.owner?.id || 0,
+            name: activity.owner?.userName || "",
+            email: activity.owner?.email || "",
+            role: activity.owner?.role || "",
+            avatar: activity.owner?.avatar || ""
+          }
+        
+          const column = {
+            id: activity.column?.id || 0,
+            name: activity.column?.columnName || "",
+            phase: activity.column?.phase || "",
+            project: activity.column?.project?.toString() || ""
+          }
+
+          return {
+            id: activity.id,
+            title: activity.activityName || "Null",
+            deadline: activity.deadline || new Date(),
+            column: column,
+            members: members || [],
+            owner: owner,
+          }
+        });
+
+        const resolvedActivities: Activity[] = await Promise.all(parsedActivities);
+
+        setActivities(resolvedActivities);
+      } catch (err) {
+        setError(err); // Catch and set any errors
+        console.error("Failed to load data:", err);
+      } finally {
+        setLoading(false); // Set loading to false after fetch (success or failure)
+      }
+    };
+
+    // 4. Call the async inner function
+    fetchData();
   })
 
-  const renderUsers = (await db.select().from(schema.users)).map(user => {
+  function renderButtons(translation: any) {
+    if (loading === false) {
+      return (
+        <>
+          <CreateActivity phase={translation.name} columns={columns} members={users} />
+          <CreateColumn phase={translation.name} project={projectId} />
+        </>
+      )
+    }
+
     return (
-      <div>
-        <input type="checkbox" id={`user${user.id}`} name="members" value={`${user.id}`} />
-        <label htmlFor={`user${user.id}`}>{user.userName}</label><br></br>
-      </div>
-    );
-  });
+      <div>... Carregando ...</div>
+    )
+  }
 
-  const activities = await db.query.activities.findMany({
-    with: {
-      usersToActivities: {
-        with: {
-          user: true,
-        },
-      },
-      owner: true, // This is now a top-level property in the 'with' object
-      column: true
+  function renderActivities() {
+    if (loading === false) {
+      return(columns &&
+          columns.map((column, idx) => {
+            //console.log("Column:", column.id, column.columnName, resolvedActivities.filter(activity => activity.column.id === column.id)); 
+            return (
+            <Panel key={idx} title={column.columnName} cards={resolvedActivities.filter(activity => activity.column.id === column.id)} columns={renderColumns} />
+          )})
     }
-  });
-
-  const parsedActivities = activities.map(async activity => {
-    const members = activity?.usersToActivities.map(userActivity => {
-      return {
-        id: userActivity.user.id,
-        name: userActivity.user.userName || "",
-        email: userActivity.user.email || "",
-        role: userActivity.user.role || "",
-        avatar: userActivity.user.avatar || ""
-      }
-    });
-
-    const owner = {
-      id: activity.owner?.id || 0,
-      name: activity.owner?.userName || "",
-      email: activity.owner?.email || "",
-      role: activity.owner?.role || "",
-      avatar: activity.owner?.avatar || ""
-    }
-  
-    const column = {
-      id: activity.column?.id || 0,
-      name: activity.column?.columnName || "",
-      phase: activity.column?.phase || "",
-      project: activity.column?.project?.toString() || ""
-    }
-
-    return {
-      id: activity.id,
-      title: activity.activityName || "Null",
-      deadline: activity.deadline || new Date(),
-      column: column,
-      members: members || [],
-      owner: owner,
-    }
-  });
-
-  const resolvedActivities: Activity[] = await Promise.all(parsedActivities);
-
-  console.log(resolvedActivities);
+  }
 
   return (
     <section className="h-full">
@@ -109,15 +161,10 @@ export default async function PhasePage({
         <h1 className="text-3xl font-semibold">{translation.name}</h1>
       </div>
       <div>
-        <CreateActivity phase="Iniciação" columns={renderColumns} members={renderUsers} />
+        {renderButtons(translation)}
       </div>
       <div className="mt-10 grid grid-cols-4 gap-4 h-7/8">
-        {columns &&
-          columns.map((column, idx) => {
-            //console.log("Column:", column.id, column.columnName, resolvedActivities.filter(activity => activity.column.id === column.id)); 
-            return (
-            <Panel key={idx} title={column.columnName} cards={resolvedActivities.filter(activity => activity.column.id === column.id)} columns={renderColumns} />
-          )})}
+        {}
       </div>
     </section>
   );
