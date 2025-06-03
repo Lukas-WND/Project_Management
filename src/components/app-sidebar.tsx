@@ -1,6 +1,8 @@
 "use client";
 
 import * as React from "react";
+import { useTheme } from "next-themes";
+
 import {
   AudioWaveform,
   BookOpen,
@@ -25,6 +27,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { Button } from "./ui/button";
 
 // This is sample data.
 const data = {
@@ -87,6 +90,11 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+
+ 
+  const { theme, setTheme } = useTheme();
+
+  
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -95,6 +103,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />
+        <Button
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          variant="outline"
+        >
+          Mudar para tema {theme === "dark" ? "claro" : "escuro"}
+        </Button>
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />

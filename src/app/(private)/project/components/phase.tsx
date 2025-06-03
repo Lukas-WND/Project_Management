@@ -22,7 +22,7 @@ export default function PhaseCard({
 
   return (
     <Link
-      href={phaseUrl}
+      href={"#"}
       className={cn(
         "p-4 h-64 flex flex-col bg-accent rounded-md hover:animate-pulse cursor-pointer",
         className

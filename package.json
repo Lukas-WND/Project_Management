@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
     "@hookform/resolvers": "^5.0.1",
     "@radix-ui/react-avatar": "^1.1.7",
     "@radix-ui/react-collapsible": "^1.1.8",
@@ -27,9 +30,11 @@
     "date-fns": "^4.1.0",
     "dotenv": "^16.5.0",
     "drizzle-orm": "^0.43.1",
+    "file-saver": "^2.0.5",
     "lucide-react": "^0.503.0",
     "net": "^1.0.2",
     "next": "15.3.1",
+    "next-themes": "^0.4.6",
     "perf_hooks": "^0.0.1",
     "pg": "^8.15.6",
     "postgres": "^3.4.5",
@@ -40,6 +45,7 @@
     "tailwind-merge": "^3.2.0",
     "tls": "^0.0.1",
     "typeorm": "^0.3.22",
+    "xlsx": "^0.18.5",
     "zod": "^3.24.3",
     "zustand": "^5.0.4"
   },
