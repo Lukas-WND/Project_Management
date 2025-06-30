@@ -18,6 +18,8 @@ import {
   SquareTerminal,
 } from "lucide-react";
 
+
+
 import { NavMain } from "@/components/nav-main";
 import { NavProjects } from "@/components/nav-projects";
 import { NavUser } from "@/components/nav-user";
@@ -30,6 +32,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { Button } from "./ui/button";
+import { UserButton, useUser } from "@clerk/nextjs";
 
 // This is sample data.
 const data = {
@@ -95,7 +98,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
  
   const { theme, setTheme } = useTheme();
-
+  const user = useUser();
   
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -113,7 +116,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </Button>
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <div className="flex justify-between mx-4 mb-2" >
+          <h1>{user.name}</h1>
+          <UserButton />  
+        </div>
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
