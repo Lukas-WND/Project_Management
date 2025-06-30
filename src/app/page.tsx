@@ -1,5 +1,6 @@
 import SignIn from "@/components/sign-in"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs"
 import Image from 'next/image'
 
 export default function Home() {
@@ -18,8 +19,27 @@ export default function Home() {
       </div>
 
       {/* Right side - Login content */}
+      
       <div className="w-full md:w-1/2 flex items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
-        <Card className="w-full max-w-md">
+      <Card className="w-full max-w-md">
+          <CardHeader className="space-y-1 text-center">
+            <CardTitle className="text-2xl font-bold">Simple Pmbok</CardTitle>
+            <CardDescription>Faça o login para acessar</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <SignedOut>
+              <SignInButton />
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+          </CardContent>
+          <CardFooter className="flex justify-center text-center text-sm text-muted-foreground">
+            <p>Continuando você aceita os nossos termos de serviço e de privacidade.</p>
+          </CardFooter>
+        </Card>
+
+        {/* <Card className="w-full max-w-md">
           <CardHeader className="space-y-1 text-center">
             <CardTitle className="text-2xl font-bold">Simple Pmbok</CardTitle>
             <CardDescription>Faça o login para acessar</CardDescription>
@@ -30,7 +50,7 @@ export default function Home() {
           <CardFooter className="flex justify-center text-center text-sm text-muted-foreground">
             <p>Continuando você aceita os nossos termos de serviço e de privacidade.</p>
           </CardFooter>
-        </Card>
+        </Card> */}
       </div>
     </div>
   )
