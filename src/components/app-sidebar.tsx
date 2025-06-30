@@ -13,6 +13,8 @@ import {
   Map,
   PieChart,
   Settings2,
+  Moon,
+  Sun,
   SquareTerminal,
 } from "lucide-react";
 
@@ -107,7 +109,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
           variant="outline"
         >
-          Mudar para tema {theme === "dark" ? "claro" : "escuro"}
+          {theme === "dark" ? <Sun/> : <Moon/>}
         </Button>
       </SidebarContent>
       <SidebarFooter>

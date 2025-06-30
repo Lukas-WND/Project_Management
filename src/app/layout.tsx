@@ -10,6 +10,8 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
+import { dark, neobrutalism, shadesOfPurple } from '@clerk/themes'
+import { ptBR } from '@clerk/localizations'
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,7 +34,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-   <ClerkProvider>
+   <ClerkProvider
+    appearance={{
+      variables: { colorPrimary: 'blue' },
+      signIn: {
+        variables: { colorPrimary: 'blue' },
+      },
+    }}
+    localization={ptBR}
+   >
     <html lang="en">
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
