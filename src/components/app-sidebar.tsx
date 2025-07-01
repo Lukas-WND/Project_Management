@@ -1,6 +1,8 @@
 "use client";
 
 import * as React from "react";
+import { useTheme } from "next-themes";
+
 import {
   AudioWaveform,
   BookOpen,
@@ -11,8 +13,12 @@ import {
   Map,
   PieChart,
   Settings2,
+  Moon,
+  Sun,
   SquareTerminal,
 } from "lucide-react";
+
+
 
 import { NavMain } from "@/components/nav-main";
 import { NavProjects } from "@/components/nav-projects";
@@ -25,6 +31,8 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { Button } from "./ui/button";
+import { UserButton, useUser } from "@clerk/nextjs";
 
 // This is sample data.
 const data = {
@@ -63,75 +71,10 @@ const data = {
         },
         {
           title: "Quadros",
-          url: "#",
+          url: "/project",
         },
         {
-          title: "Atividades",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Planejamento",
-      url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentação",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introdução",
-          url: "#",
-        },
-        {
-          title: "Histórias",
-          url: "#",
-        },
-        {
-          title: "Diagramas",
-          url: "#",
-        },
-        {
-          title: "Versões",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Configurações",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "Gerais",
-          url: "#",
-        },
-        {
-          title: "Equipe",
-          url: "#",
-        },
-        {
-          title: "Notificações",
-          url: "#",
-        },
-        {
-          title: "Automações",
+          title: "Resumo",
           url: "#",
         },
       ],
@@ -139,24 +82,24 @@ const data = {
   ],
   projects: [
     {
-      name: "Design Engineering",
+      name: "Gerais",
       url: "#",
       icon: Frame,
     },
     {
-      name: "Sales & Marketing",
+      name: "Notificações",
       url: "#",
       icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
     },
   ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+
+ 
+  const { theme, setTheme } = useTheme();
+  const user = useUser();
+  
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -165,9 +108,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />
+        <Button
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          variant="outline"
+        >
+          {theme === "dark" ? <Sun/> : <Moon/>}
+        </Button>
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <div className="flex justify-between mx-4 mb-2" >
+          <h1>{user.name}</h1>
+          <UserButton />  
+        </div>
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
