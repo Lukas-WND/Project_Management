@@ -1,0 +1,158 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model ActivityCard {
+  id                Int                 @id @default(autoincrement())
+  activy_name       String?
+  column_id         Int
+  activy_deadline   DateTime?
+  clerkUserId       String
+  column            KanbanColumn        @relation(fields: [column_id], references: [id])
+  UsersToActivities UsersToActivities[]
+}
+
+model KanbanColumn {
+  id            Int            @id @default(autoincrement())
+  column_name   String
+  project_id    Int?
+  phase         String?        @default("Arquivado")
+  activityCards ActivityCard[]
+}
+
+model Project {
+  id              Int               @id @default(autoincrement())
+  title           String
+  description     String?
+  updated_at      DateTime?
+  deleted_at      DateTime?
+  created_at      DateTime          @default(now())
+  clerkUserId     String?
+  columns         Column[]
+  UserProject     UserProject[]
+  UsersToProjects UsersToProjects[]
+}
+
+model Column {
+  id         Int       @id @default(autoincrement())
+  title      String
+  order      Int?
+  phase      Int
+  updated_at DateTime?
+  id_project Int?
+  created_at DateTime  @default(now())
+  project    Project?  @relation(fields: [id_project], references: [id])
+  tasks      Task[]
+}
+
+model Task {
+  id          Int           @id @default(autoincrement())
+  title       String
+  description String?
+  deadline    DateTime?
+  updated_at  DateTime?
+  deleted_at  DateTime?
+  status      Int
+  priority    Int           @default(2)
+  created_at  DateTime      @default(now())
+  column      Column        @relation(fields: [status], references: [id])
+  comments    Comment[]
+  taskHistory TaskHistory[]
+  UserTask    UserTask[]
+}
+
+model Comment {
+  id          Int       @id @default(autoincrement())
+  text        String
+  updated_at  DateTime?
+  created_at  DateTime  @default(now())
+  id_task     Int
+  clerkUserId String
+  task        Task      @relation(fields: [id_task], references: [id])
+}
+
+model TaskHistory {
+  id         Int      @id @default(autoincrement())
+  id_task    Int
+  changes    String?
+  created_at DateTime @default(now())
+  task       Task     @relation(fields: [id_task], references: [id])
+}
+
+model Role {
+  id          Int           @id @default(autoincrement())
+  title       String
+  description String?
+  updated_at  DateTime?
+  deleted_at  DateTime?
+  created_at  DateTime      @default(now())
+  RoleService RoleService[]
+  UserProject UserProject[]
+}
+
+model Service {
+  id          Int           @id @default(autoincrement())
+  title       String
+  description String?
+  path        String
+  method      Int
+  updated_at  DateTime?
+  created_at  DateTime      @default(now())
+  RoleService RoleService[]
+}
+
+model RoleService {
+  id_role    Int
+  id_service Int
+  role       Role    @relation(fields: [id_role], references: [id])
+  service    Service @relation(fields: [id_service], references: [id])
+
+  @@id([id_role, id_service])
+}
+
+model UserProject {
+  id_project  Int
+  id_role     Int
+  clerkUserId String
+  updated_at  DateTime?
+  deleted_at  DateTime?
+  created_at  DateTime  @default(now())
+
+  project Project @relation(fields: [id_project], references: [id])
+  role    Role    @relation(fields: [id_role], references: [id])
+
+  @@id([clerkUserId, id_project])
+}
+
+model UserTask {
+  id_task     Int
+  clerkUserId String
+  task        Task   @relation(fields: [id_task], references: [id])
+
+  @@id([clerkUserId, id_task])
+}
+
+model UsersToActivities {
+  activity_id Int
+  clerkUserId String
+  activity    ActivityCard @relation(fields: [activity_id], references: [id])
+
+  @@id([clerkUserId, activity_id])
+}
+
+model UsersToProjects {
+  project_id  Int
+  clerkUserId String
+  project     Project @relation(fields: [project_id], references: [id])
+
+  @@id([clerkUserId, project_id])
+}

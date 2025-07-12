@@ -10,7 +10,7 @@ export default async function Home() {
   const { userId } = await auth()
 
   if(userId){
-    redirect('/project')
+    redirect('/dashboard')
   }
 
 
@@ -29,28 +29,23 @@ export default async function Home() {
         </div>
 
         {/* Right side - Login content */}
-        
-        <div className="w-full md:w-1/2 flex items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
-        <Card className="w-full max-w-md">
-            <CardHeader className="space-y-1 text-center">
-              <CardTitle className="text-2xl font-bold">Simple Pmbok</CardTitle>
-              <CardDescription>Faça o login para acessar</CardDescription>
-            </CardHeader>
-            <CardContent>
+        <div className="w-full md:w-1/2 bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
+              <h1 className="flex items-center justify-center text-4xl font-bold tracking-tight text-gray-900 dark:text-white mb-4">
+                SIMPLE PMBOK
+              </h1>
+              <div className="flex items-center justify-center">
+
               <SignIn>
 
               </SignIn>
               <SignedOut>
-                <SignInButton />
+               
               </SignedOut>
               <SignedIn>
-                <UserButton />
+                
               </SignedIn>
-            </CardContent>
-            <CardFooter className="flex justify-center text-center text-sm text-muted-foreground">
-              <p>Continuando você aceita os nossos termos de serviço e de privacidade.</p>
-            </CardFooter>
-          </Card>
+              </div>
+    
 
           {/* <Card className="w-full max-w-md">
             <CardHeader className="space-y-1 text-center">

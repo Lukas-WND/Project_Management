@@ -98,7 +98,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
  
   const { theme, setTheme } = useTheme();
-  const user = useUser();
+  const {user} = useUser();
+  console.log(user)
   
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -116,8 +117,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </Button>
       </SidebarContent>
       <SidebarFooter>
-        <div className="flex justify-between mx-4 mb-2" >
-          <h1>{user.name}</h1>
+        <div className="flex justify-center mx-4 mb-6" >
+ 
           <UserButton />  
         </div>
       </SidebarFooter>
